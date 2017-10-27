@@ -401,15 +401,24 @@ ImporterApp.prototype.GetEffect = function ()
 
     // Creates a camera, sets its position and adds it to the scene.
 
-
+    container = document.getElementById('example');
+    container.innerHTML = "";
     // Creates the Stereo Effect for the VR experience.
     effect = new THREE.StereoEffect(test);
     effect.eyeSeparation = 10;
-    effect.setSize(window.innerWidth/1.5, window.innerHeight/1.3);
-    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.01, 3000);
+    effect.setSize(window.innerWidth/1.2, window.innerHeight/1.2);
+    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.01, 700);
     camera.position.set(-500, 100, -200);
-    this.viewer.viewer.scene.add(camera);
-
+    //this.viewer.viewer.scene.add(camera);
+    var light = new THREE.PointLight(0xFFFFFF);
+    light.position.set(0, 0, 9);
+    light.castShadow = true;
+    light.shadow.mapSize.width = 1024;
+    light.shadow.mapSize.height = 1024;
+    light.shadow.camera.near = 10;
+    light.shadow.camera.far = 100;
+    this.viewer.viewer.scene.add(light);
+    effect.render(this.viewer.viewer.scene,camera);
 }
 
 ImporterApp.prototype.SetNamedView = function (viewName)
